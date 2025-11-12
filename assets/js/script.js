@@ -62,6 +62,28 @@
 // example2()
 
 
+async function sendContact(name, email, message) {
+  try {
+    const res = await fetch("http://127.0.0.1:54367/contact/", { // change this
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, email, message })
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Server responded ${res.status}: ${text}`);
+    }
+    return await res.json();
+  } catch (err) {
+    console.error("Contact send error:", err);
+    alert("Something went wrong. Check console."); // or nicer UI
+  }
+}
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
   const form = document.getElementById("contactForm");
